@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Text, View } from 'react-native'
 import { ShakeHandler } from './handlers/ShakeHandler'
-import { RFValue } from "react-native-responsive-fontsize";
+import styles from './style/Styles';
 
 const HomeScreen = (props) => {
   const { planets } = props;
@@ -11,7 +11,6 @@ const HomeScreen = (props) => {
   useEffect(() => {
     const index = getRandomInt(0, planets.length);
     setChoosenPlanet(planets[index]);
-
     ShakeHandler.addListener(() => {
       const index = getRandomInt(0, planets.length);
       setChoosenPlanet(planets[index]);
@@ -29,7 +28,6 @@ const HomeScreen = (props) => {
   }
 
   const getEpisodes = () => {
-    console.log(choosenPlanet);
     let episodes;
     if (choosenPlanet.filmConnection) {
       let movieArr = deepObjectArrayCopy(choosenPlanet.filmConnection.films);
@@ -45,13 +43,28 @@ const HomeScreen = (props) => {
     return episodes;
   }
 
-  if (!choosenPlanet) return (<View></View>);
+  // If episodes 3 and 5 is in here text is red
+  const getClass = () => {
+    let className = styles.subText;
+    if (choosenPlanet.filmConnection) {
+      const movieArr = choosenPlanet.filmConnection.films;
+      for (let i = 0; i < movieArr.length; i++) {
+        if(movieArr[i].episodeID === 5 || movieArr[i].episodeID === 3){
+          className = styles.redSubText;
+          break;
+        } 
+      }
+    }
+    return className;
+  }
+
+  if (!choosenPlanet) return (<View style={styles.blackDiv}></View>);
 
   return (
-    <View style={{ backgroundColor: '#000', flex: 1, flexDirection: 'column', justifyContent: "center", alignItems: 'center' }}>
-      <Text style={{color: '#F9D71C', fontFamily: 'starwars', fontSize: RFValue(55)}}>{choosenPlanet.name}</Text>
+    <View style={styles.wrapper}>
+      <Text style={styles.mainText}>{choosenPlanet.name}</Text>
       {getEpisodes() &&
-        <Text style={{color: '#F9D71C', fontFamily: 'starwars', fontSize: RFValue(24), marginTop: 10}}>{getEpisodes()}</Text>
+        <Text style={getClass()}>{getEpisodes()}</Text>
       }
     </View>
   );

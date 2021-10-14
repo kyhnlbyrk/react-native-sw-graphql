@@ -1,7 +1,8 @@
 import React from 'react'
-import { Text, View } from 'react-native'
 import { gql, useQuery } from '@apollo/client'
 import HomeScreen from './HomeScreen';
+import SplashScreen from './components/SplashScreen';
+import ErrorScreen from './ErrorScreen'
 
 const CHAPTERS_QUERY = gql`
 {
@@ -19,13 +20,14 @@ const CHAPTERS_QUERY = gql`
     }
 }
 `;
-const SplashScreen = () => {
+const DataHandler = () => {
   const { data, loading, error } = useQuery(CHAPTERS_QUERY);
 
-  if(loading) return (  <View style={{flex: 1, justifyContent: "center", alignItems: 'center'}}><Text>Loading</Text></View>)
+  if(loading) return (  <SplashScreen />); 
+  if(error) return (<ErrorScreen />);
   return (
     <HomeScreen planets={data.allPlanets.planets}></HomeScreen>
   );
 }
 
-export default SplashScreen;
+export default DataHandler;
