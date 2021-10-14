@@ -1,6 +1,8 @@
 import React from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import SplashScreen from './src/SplashScreen'
+import { View } from 'react-native'
+import SplashScreen from './src/SplashScreen';
+import { useFonts } from 'expo-font';
 
 
 const client = new ApolloClient({
@@ -10,9 +12,17 @@ const client = new ApolloClient({
 
 export default function App() {
 
-  return (
-    <ApolloProvider client={client}>
-      <SplashScreen />
-    </ApolloProvider>
-  )
+  let [fontsLoaded] = useFonts({
+    'starwars': require('./assets/fonts/starwars.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return <View />;
+  } else {
+    return (
+      <ApolloProvider client={client}>
+        <SplashScreen />
+      </ApolloProvider>
+    )
+  }
 }
