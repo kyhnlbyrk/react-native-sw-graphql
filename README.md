@@ -14,7 +14,7 @@ run the following in your terminal
 
 Once the expo is running, download "Expo go" app from stores. If your phone is iOS use your Camera app to scan QR code, if Android use the Expo Go scanner. 
 
-OR you can open the app in the following link:
+OR you can open the app in the following link: https://expo.io/@kyhnlbyrk/star-wars
 
 Download Expo go, and scan the QR. 
 
